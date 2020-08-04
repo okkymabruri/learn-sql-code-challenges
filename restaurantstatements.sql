@@ -1,7 +1,7 @@
---1
+--1 Create invitations for a party
 SELECT FirstName, LastName, Email FROM Customers ORDER BY LastName;
 
---2
+--2 Create a table to store information
 DROP TABLE IF EXISTS AnniversaryAttendees;
 CREATE TABLE AnniversaryAttendees (
   CustomerID INT,
@@ -9,13 +9,13 @@ CREATE TABLE AnniversaryAttendees (
   PRIMARY KEY (CustomerID)
 );
 
---3
+--3 Print a menu
 SELECT * FROM Dishes ORDER BY Price;
 SELECT * FROM Dishes WHERE Type='Appetizer' OR Type='Beverage'
   ORDER BY Type;
   SELECT * FROM Dishes WHERE Type != 'Beverage' ORDER BY Type;
 
---4
+--4 Sign a customer up for your loyalty program
 DELETE FROM Customers WHERE CustomerID >= 101;
 
 INSERT INTO Customers (FirstName, LastName, Email, Address, City, State, Phone, Birthday)
@@ -23,22 +23,22 @@ INSERT INTO Customers (FirstName, LastName, Email, Address, City, State, Phone, 
 
 SELECT * FROM Customers ORDER BY CustomerID DESC;
 
---5
+--5 Update a customer's personal information
 SELECT * FROM Customers WHERE FirstName='Taylor' AND LastName='Jenkins';
 
 UPDATE Customers
   SET Address='74 Pine St.', City='New York', State='NY'
   WHERE CustomerID=26;
 
---6
+--6 Remove a customer's record
 DELETE FROM Customers WHERE CustomerID=4;
 
---7
+--7 Log customer responses
 INSERT INTO AnniversaryAttendees (CustomerID, PartySize)
   VALUES ((SELECT CustomerID FROM Customers WHERE Email LIKE 'atapley2j%'), 4);
 SELECT * FROM AnniversaryAttendees;
 
---8
+--8 Look up reservations
 SELECT c.CustomerID, c.FirstName, c.LastName, r.PartySize, r.Date
   FROM Customers c
   JOIN Reservations r ON c.CustomerID=r.CustomerID
@@ -71,7 +71,7 @@ SELECT sum(d.Price) FROM OrdersDishes od
 	LEFT JOIN Dishes d ON od.DishID=d.DishID
 	WHERE od.OrderID=1001;
 
---11
+--11 Track your customer's favorite dishes
 SELECT * FROM Customers c
 	LEFT JOIN Dishes d on c.FavoriteDish=d.DishID
 	WHERE c.FirstName='Cleo';
@@ -80,7 +80,7 @@ UPDATE Customers
 	SET FavoriteDish=(SELECT DishID FROM Dishes WHERE Name='Quinoa Salmon Salad')
 	WHERE FirstName='Cleo';
 
---12
+--12 Prepare a report of your top five customers
 SELECT count(o.OrderID) NumberOrders, c.FirstName, c.LastName, c.Email FROM Orders o
 LEFT JOIN Customers c ON o.CustomerID=c.CustomerID
 GROUP BY c.CustomerID
