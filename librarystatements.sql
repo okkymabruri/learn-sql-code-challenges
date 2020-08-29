@@ -19,9 +19,13 @@ FROM Loans l
 LEFT JOIN Books b
 ON l.BookID=b.BookID
 WHERE b.Title Like '%Dracula%' 
-AND l.ReturnedDate IS NULL) AS AvailableBooks; --2 Run a report to see what books are due back 
+AND l.ReturnedDate IS NULL) AS AvailableBooks;
 
-INSERT INTO Books (Title, Author, Published, Barcode) VALUES ('Dracula', 'Bram Stoker', 1897, 4819277482), ("Gullivers's Travels", 'Jonathan Swift', 1729, 4899254401); --3 Check out books
+--2 Run a report to see what books are due back 
+
+INSERT INTO Books (Title, Author, Published, Barcode) VALUES ('Dracula', 'Bram Stoker', 1897, 4819277482), ("Gullivers's Travels", 'Jonathan Swift', 1729, 4899254401);
+
+--3 Check out books
 
 INSERT INTO Loans (BookID, PatronID, LoanDate, DueDate) VALUES ((
 SELECT  BookID
@@ -48,7 +52,9 @@ LEFT JOIN Books b
 ON l.BookID=b.BookID
 LEFT JOIN Patrons p
 ON l.PatronID=p.PatronID
-ORDER BY LoanDate DESC; --4 Check for books due back
+ORDER BY LoanDate DESC;
+
+--4 Check for books due back
 
 SELECT  l.DueDate
        ,l.ReturnedDate
@@ -62,13 +68,17 @@ ON l.BookID=b.BookID
 LEFT JOIN Patrons p
 ON l.PatronID=p.PatronID
 WHERE l.DueDate='2020-07-13' 
-AND l.ReturnedDate IS NULL; --5 Return books to the library UPDATE Loans 
+AND l.ReturnedDate IS NULL;
+
+--5 Return books to the library UPDATE Loans 
 
 SET ReturnedDate='2020-06-05'
 WHERE BookID=( 
 SELECT  BookID
 FROM Books
-WHERE Barcode=6435968624) AND ReturnedDate IS NULL; --6 Encourage patrons to check out books 
+WHERE Barcode=6435968624) AND ReturnedDate IS NULL;
+
+--6 Encourage patrons to check out books 
 
 SELECT  COUNT(l.PatronID) AS LoanCount
        ,p.FirstName
@@ -81,7 +91,9 @@ LEFT JOIN Patrons p
 ON l.PatronID=p.PatronID
 GROUP BY  l.PatronID
 ORDER BY LoanCount
-LIMIT 10; --7 Find books to feature for an event
+LIMIT 10;
+
+--7 Find books to feature for an event
 
 SELECT  b.Title
        ,b.Author
@@ -92,7 +104,9 @@ ON l.BookID=b.BookID
 WHERE (b.Published BETWEEN 1889 AND 1900) 
 AND l.DueDate IS NOT NULL 
 GROUP BY  b.Title
-ORDER BY b.Title; --8 Book statistics
+ORDER BY b.Title;
+
+--8 Book statistics
 
 SELECT  Published
        ,COUNT(DISTINCT(Title)) AS PublishedBookCount

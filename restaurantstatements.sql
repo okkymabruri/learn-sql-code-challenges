@@ -1,16 +1,15 @@
- --1
-
-CREATE invitations for a party
+ --1 CREATE invitations for a party
 SELECT  FirstName
        ,LastName
        ,Email
 FROM Customers
-ORDER BY LastName; --2
+ORDER BY LastName;
 
-CREATE a TABLE to store information
-
+--2 CREATE a TABLE to store information
 DROP TABLE IF EXISTS AnniversaryAttendees;
-CREATE TABLE AnniversaryAttendees ( CustomerID INT, PartySize INT, PRIMARY KEY (CustomerID) ); --3 Print a menu
+CREATE TABLE AnniversaryAttendees ( CustomerID INT, PartySize INT, PRIMARY KEY (CustomerID) );
+
+--3 Print a menu
 
 SELECT  *
 FROM Dishes
@@ -24,7 +23,10 @@ ORDER BY Type;
 SELECT  *
 FROM Dishes
 WHERE Type != 'Beverage'
-ORDER BY Type; --4 Sign a customer up for your loyalty program DELETE 
+ORDER BY Type;
+
+--4 Sign a customer up for your loyalty program
+DELETE 
 FROM Customers
 WHERE CustomerID >= 101; 
 
@@ -32,7 +34,9 @@ INSERT INTO Customers (FirstName, LastName, Email, Address, City, State, Phone, 
 
 SELECT  *
 FROM Customers
-ORDER BY CustomerID DESC; --5 Update a customer's personal information
+ORDER BY CustomerID DESC;
+
+--5 Update a customer's personal information
 
 SELECT  *
 FROM Customers
@@ -40,9 +44,13 @@ WHERE FirstName='Taylor'
 AND LastName='Jenkins'; UPDATE Customers 
 
 SET Address='74 Pine St.', City='New York', State='NY'
-WHERE CustomerID=26; --6 Remove a customer's record DELETE 
+WHERE CustomerID=26;
+
+--6 Remove a customer's record DELETE 
 FROM Customers
-WHERE CustomerID=4; --7 Log customer responses 
+WHERE CustomerID=4;
+
+--7 Log customer responses 
 
 INSERT INTO AnniversaryAttendees (CustomerID, PartySize) VALUES ((
 SELECT  CustomerID
@@ -50,7 +58,9 @@ FROM Customers
 WHERE Email LIKE 'atapley2j%'), 4); 
 
 SELECT  *
-FROM AnniversaryAttendees; --8 Look up reservations
+FROM AnniversaryAttendees;
+
+--8 Look up reservations
 
 SELECT  c.CustomerID
        ,c.FirstName
@@ -61,7 +71,9 @@ FROM Customers c
 JOIN Reservations r
 ON c.CustomerID=r.CustomerID
 WHERE c.LastName LIKE 'Ste%n'
-ORDER BY r.Date DESC; --9 Take a Reservations 
+ORDER BY r.Date DESC;
+
+--9 Take a Reservations 
 
 SELECT  *
 FROM Customers
@@ -82,7 +94,9 @@ SELECT  c.FirstName
 FROM Customers c
 JOIN Reservations r
 ON c.CustomerID=r.CustomerID
-WHERE Email='smac@rouxacademy.com'; --10 Take a delivery order 
+WHERE Email='smac@rouxacademy.com';
+
+--10 Take a delivery order 
 
 SELECT  *
 FROM Customers
@@ -111,7 +125,9 @@ SELECT  SUM(d.Price)
 FROM OrdersDishes od
 LEFT JOIN Dishes d
 ON od.DishID=d.DishID
-WHERE od.OrderID=1001; --11 Track your customer's favorite dishes 
+WHERE od.OrderID=1001;
+
+--11 Track your customer's favorite dishes 
 
 SELECT  *
 FROM Customers c
@@ -123,7 +139,9 @@ SET FavoriteDish=(
 SELECT  DishID
 FROM Dishes
 WHERE Name='Quinoa Salmon Salad') 
-WHERE FirstName='Cleo'; --12 Prepare a report of your top five customers 
+WHERE FirstName='Cleo';
+
+--12 Prepare a report of your top five customers 
 
 SELECT  COUNT(o.OrderID) NumberOrders
        ,c.FirstName
